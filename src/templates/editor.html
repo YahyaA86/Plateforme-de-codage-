@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éditeur Pro - CodeMentor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css">
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --dark: #0F172A;
+            --dark-light: #1E293B;
+            --light: #F8FAFC;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: 0;
+        }
+
+        .exercise-panel {
+            background: var(--dark-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+            min-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            flex: 2;
+            gap: 1rem;
+            min-width: 0;
+            height: 100%;
+            min-height: 0;
+        }
+
+        .editor-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--dark-light);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .editor-inner {
+            position: absolute;
+            top: 60px;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .CodeMirror {
+            height: 100% !important;
+            width: 100% !important;
+            position: relative;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex: 1;
+        }
+
+        .CodeMirror-scroll {
+            overflow: auto !important;
+            height: 100%;
+            width: 100%;
+            outline: none;
+            margin-right: 0 !important;
+        }
+
+        .CodeMirror-vscrollbar {
+            right: 0 !important;
+            width: 10px !important;
+            background: transparent !important;
+        }
+
+        .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+            background-color: #4B5563 !important;
+            border-radius: 5px !important;
+        }
+
+        .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        .CodeMirror-scrollbar-filler {
+            background: transparent !important;
+        }
+
+        .CodeMirror-sizer {
+            min-height: auto !important;
+            padding-bottom: 300px !important;
+            border-right-width: 0 !important;
+        }
+
+        .CodeMirror-lines {
+            padding: 4px 0;
+        }
+
+        .CodeMirror-gutters {
+            height: 100% !important;
+            border-right: 1px solid #2D3748;
+            background-color: #1E293B;
+        }
+
+        .CodeMirror-gutter-wrapper {
+            position: absolute !important;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: 60px;
+            flex-shrink: 0;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-badge.unvalidated {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .status-badge.validated {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .markdown-content {
+            line-height: 1.6;
+            color: #CBD5E1;
+        }
+
+        .markdown-content h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .markdown-content pre {
+            background: #1E293B !important;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .output-panel {
+            background: var(--dark-light);
+            border-radius: 12px;
+            padding: 1rem;
+            height: 250px;
+            overflow: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-content {
+            background: #1E293B;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            min-height: 100%;
+            overflow-x: auto;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .CodeMirror-activeline-background {
+            background: rgba(124, 58, 237, 0.1) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="exercise-panel">
+            <div class="header">
+                <h3>Consigne de l'exercice</h3>
+                <div id="status-badge" class="status-badge unvalidated">
+                    <i class="fas fa-times"></i>
+                    Non validé
+                </div>
+            </div>
+            <div class="markdown-content" id="exercise-content">
+                {{ exercise | safe }}
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-wrapper">
+                <div class="header">
+                    <h4>Éditeur de code</h4>
+                    <div class="editor-actions">
+                        <button class="btn btn-primary" id="run-btn">
+                            <i class="fas fa-play"></i> Exécuter
+                        </button>
+                        <button class="btn btn-primary" id="validate-btn">
+                            <i class="fas fa-check"></i> Valider
+                        </button>
+                        <button class="btn btn-secondary" id="show-solution-btn">
+                            <i class="fas fa-lightbulb"></i> Solution
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-inner">
+                    <textarea id="code-editor"></textarea>
+                </div>
+            </div>
+
+            <div class="output-panel">
+                <div class="header">
+                    <h5>Sortie du programme</h5>
+                    <button class="btn btn-secondary btn-sm" id="clear-output">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                </div>
+                <div class="output-content" id="output">
+                    Aucune sortie pour le moment
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/ruby/ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/scroll/simplescrollbars.min.js"></script>
+
+    <script>
+        let codeEditor;
+        let currentCacheKey = '{{ cache_key }}';
+        let refreshTimer;
+        let isRefreshing = false;
+
+        function initializeEditor(language) {
+            const modes = {
+                'python': 'python',
+                'javascript': 'javascript',
+                'java': 'text/x-java',
+                'c': 'text/x-csrc',
+                'ruby': 'ruby'
+            };
+
+            codeEditor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+                lineNumbers: true,
+                mode: modes[language.toLowerCase()] || 'python',
+                theme: 'material-darker',
+                indentUnit: 4,
+                lineWrapping: false,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                extraKeys: {
+                    'Enter': handleEnterKey,
+                    'Ctrl-Enter': executeCode,
+                    'Cmd-Enter': executeCode
+                },
+                scrollbarStyle: 'native',
+                lineWiseCopyCut: true,
+                viewportMargin: Infinity,
+                inputStyle: 'contenteditable',
+                scrollPastEnd: true,
+                electricChars: false,
+                coverGutterNextToScrollbar: false,
+                fixedGutter: true
+            });
+
+            codeEditor.on('change', function() {
+                scheduleEditorRefresh();
+                setTimeout(() => codeEditor.setSize(), 10);
+            });
+
+            codeEditor.on('scroll', function() {
+                scheduleEditorRefresh();
+            });
+
+            setTimeout(() => {
+                codeEditor.refresh();
+                codeEditor.focus();
+                codeEditor.setSize();
+            }, 200);
+        }
+
+        function handleEnterKey(cm) {
+            cm.execCommand('newlineAndIndent');
+            setTimeout(() => {
+                cm.refresh();
+                cm.setSize();
+            }, 10);
+        }
+
+        function scheduleEditorRefresh() {
+            if (isRefreshing) return;
+            
+            clearTimeout(refreshTimer);
+            refreshTimer = setTimeout(() => {
+                isRefreshing = true;
+                try {
+                    codeEditor.refresh();
+                    codeEditor.setSize();
+                } finally {
+                    isRefreshing = false;
+                }
+            }, 50);
+        }
+
+        async function executeCode() {
+            const code = codeEditor.getValue();
+            const language = '{{ language }}'.toLowerCase();
+            const outputDiv = document.getElementById('output');
+
+            outputDiv.textContent = 'Exécution en cours...';
+            
+            try {
+                const response = await fetch('/execute', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ code, language })
+                });
+                
+                const result = await response.json();
+                let output = '';
+                if (result.stdout) output += result.stdout;
+                if (result.stderr) output += '\n\nErreurs :\n' + result.stderr;
+                outputDiv.textContent = output || 'Le code a été exécuté sans sortie.';
+                return result;
+
+            } catch (error) {
+                outputDiv.textContent = 'Erreur : ' + error.message;
+                throw error;
+            }
+        }
+
+        async function validateSolution() {
+            const code = codeEditor.getValue();
+            const language = '{{ language }}';
+            const outputDiv = document.getElementById('output');
+            const statusBadge = document.getElementById('status-badge');
+            
+            outputDiv.textContent = 'Validation en cours...';
+            
+            try {
+                const response = await fetch('/validate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ 
+                        code, 
+                        language,
+                        cache_key: currentCacheKey
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    outputDiv.textContent = 'Erreur: ' + result.error;
+                    return;
+                }
+
+                if (result.valid) {
+                    statusBadge.className = 'status-badge validated';
+                    statusBadge.innerHTML = '<i class="fas fa-check"></i> Validé';
+                    outputDiv.textContent = '✅ Félicitations! Votre solution est correcte.\n\n' + 
+                                          `Score: ${result.score}/100\n\n` + 
+                                          result.feedback;
+                } else {
+                    statusBadge.className = 'status-badge unvalidated';
+                    statusBadge.innerHTML = '<i class="fas fa-times"></i> Non validé';
+                    outputDiv.textContent = '❌ Votre solution a des problèmes.\n\n' + 
+                                         `Score: ${result.score}/100\n\n` + 
+                                         result.feedback;
+                }
+
+            } catch (error) {
+                outputDiv.textContent = 'Erreur lors de la validation: ' + error.message;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeEditor('{{ language }}');
+
+            document.getElementById('run-btn').addEventListener('click', executeCode);
+            document.getElementById('validate-btn').addEventListener('click', validateSolution);
+            document.getElementById('show-solution-btn').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`/get-solution?cache_key=${currentCacheKey}`);
+                    if (!response.ok) throw new Error('Solution non trouvée');
+                    const data = await response.json();
+                    codeEditor.setValue(data.solution);
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+            document.getElementById('clear-output').addEventListener('click', () => {
+                document.getElementById('output').textContent = 'Aucune sortie pour le moment';
+            });
+
+            window.addEventListener('resize', () => {
+                scheduleEditorRefresh();
+            });
+        });
+    </script>
+</body>
+</html>
