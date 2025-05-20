@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre à Coder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --dark: #0F172A;
+            --dark-light: #1E293B;
+            --light: #F8FAFC;
+            --card-hover-color: #334155;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            border-radius: 0;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            color: #E2E8F0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--dark-light);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            margin: 0 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background-color: rgba(124, 58, 237, 0.1);
+            color: var(--primary);
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: var(--dark-light);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 30%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .card:hover {
+            background-color: var(--card-hover-color);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #94A3B8;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 12px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 40px auto;
+            width: fit-content;
+            font-weight: 500;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            font-size: 1rem;
+            color: #94A3B8;
+        }
+
+        @media (max-width: 992px) {
+            .card {
+                width: 45%;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            header p {
+                font-size: 1.2rem;
+            }
+
+            .card {
+                width: 100%;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            nav a {
+                margin: 5px 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <div class="container">
+            <h1>Bienvenue sur Apprends à Coder</h1>
+            <p>Le site interactif pour apprendre les langages de programmation populaires</p>
+        </div>
+    </header>
+
+    <!-- Menu de navigation -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Cours</a>
+        <a href="#">À propos</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- Section principale -->
+    <main class="container">
+        <!-- Première ligne de cartes -->
+        <div class="card-container">
+            <div class="card">
+                <h3>HTML & CSS</h3>
+                <p>Apprends à structurer et styliser tes pages web avec HTML et CSS. La base du développement web.</p>
+            </div>
+            <div class="card">
+                <h3>JavaScript</h3>
+                <p>Rends ton site interactif et dynamique avec JavaScript. Apprends à manipuler le DOM.</p>
+            </div>
+            <div class="card">
+                <h3>Python</h3>
+                <p>Apprends la programmation avec Python. Parfait pour débuter et construire des projets rapidement !</p>
+            </div>
+        </div>
+
+        <!-- Le bouton "Commencer à Apprendre" -->
+        <a href="index" class="cta-button">Commencer à Apprendre</a>
+
+        <!-- Deuxième ligne de cartes -->
+        <div class="card-container">
+            <div class="card">
+                <h3>C</h3>
+                <p>Maîtrise le langage C, idéal pour comprendre les bases de la programmation bas niveau.</p>
+            </div>
+            <div class="card">
+                <h3>React</h3>
+                <p>Construis des interfaces utilisateurs dynamiques avec React, un des frameworks JavaScript les plus populaires.</p>
+            </div>
+            <div class="card">
+                <h3>Ruby</h3>
+                <p>Apprends Ruby, un langage de programmation polyvalent, utilisé pour construire des applications web.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Apprends à Coder | Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
