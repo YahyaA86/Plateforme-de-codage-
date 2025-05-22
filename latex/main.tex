@@ -61,7 +61,6 @@ La plateforme repose sur plusieurs technologies : le backend utilise Flask en Py
 
 \section{Travail réalisé}
 
-Dans la partie ``Travail réalisé'', nous décrivons la mise en œuvre des principales fonctionnalités. Le point de départ est l'interface utilisateur qui permet de paramétrer un exercice. 
 
 \begin{figure}[h!]
 \centering
@@ -112,7 +111,7 @@ En conclusion, ce projet nous a permis de mettre en pratique plusieurs compéten
 \makeatother
 
 	\section{Cahier des charges}
-Ce cahier des charges précisait les fonctionnalités attendues du projet : La plateforme doit permettre la génération d'exercices personnalisés en fonction du thème et du langage choisis, afficher l'énoncé et la solution du chatbot, et exécuter le code fourni. L'interface utilisateur simple doit être accessible via un navigateur web et communiquer avec un backend prenant en charge l'IA Ollama. Les exigences techniques incluaient l'utilisation de Flask pour le serveur, l'intégration d'Ollama pour la génération de texte, et la capacité d'exécuter du code dans plusieurs langages de programmation.
+La plateforme doit permettre la génération d'exercices personnalisés en fonction du thème et du langage choisis, afficher l'énoncé et la solution du chatbot, et exécuter le code fourni. L'interface utilisateur simple doit être accessible via un navigateur web et communiquer avec un backend prenant en charge l'IA Ollama. Les exigences techniques incluaient l'utilisation de Flask pour le serveur, l'intégration d'Ollama pour la génération de texte, et la capacité d'exécuter du code dans plusieurs langages de programmation.
 
 	\section{Exemple d'exécution du projet}
 L'annexe présente un exemple concret d'exercice généré automatiquement par la plateforme, avec sa solution associée. 
@@ -125,6 +124,6 @@ L'annexe présente un exemple concret d'exercice généré automatiquement par l
 \end{figure}
 
 	\section{Manuel utilisateur}
-Le manuel utilisateur décrit l'utilisation de la plateforme : après avoir lancé le serveur Flask avec \texttt{python app.py}, l'utilisateur accède à l'application via son navigateur à l'adresse locale : \texttt{http://localhost:5000}. Il sélectionne la notion et le langage dans le formulaire affiché (comme montré précédemment), puis clique sur ``Générer''. La plateforme affiche l'énoncé de l'exercice généré ainsi qu'un éditeur de code. L'utilisateur peut alors compléter l'exercice et recevoir une correction automatique par l'IA. L'utilisateur peut modifier le code ou en saisir un nouveau, puis cliquer sur ``Exécuter'' pour voir le résultat. Toute erreur d'exécution est affichée dans l'interface, ce qui facilite le débogage.
+Après avoir lancé le serveur Flask avec \texttt{python app.py}, l'utilisateur accède à l'application via son navigateur à l'adresse locale : \texttt{http://localhost:5000}. Il sélectionne la notion et le langage dans le formulaire affiché (comme montré précédemment), puis clique sur ``Générer''. La plateforme affiche l'énoncé de l'exercice généré ainsi qu'un éditeur de code. L'utilisateur peut alors compléter l'exercice et recevoir une correction automatique par l'IA. L'utilisateur peut modifier le code ou en saisir un nouveau, puis cliquer sur ``Exécuter'' pour voir le résultat. Toute erreur d'exécution est affichée dans l'interface, ce qui facilite le débogage.
 
 \end{document}
