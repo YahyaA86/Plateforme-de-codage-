@@ -14,6 +14,7 @@ import json
 
 app = Flask(__name__)
 CORS(app)
+app.secret_key = 'test'
 
 EXECUTION_COMMANDS = {
     'python': ['python', '{filepath}'],
