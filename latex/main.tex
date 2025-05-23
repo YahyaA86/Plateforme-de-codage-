@@ -62,6 +62,16 @@ La plateforme repose sur plusieurs technologies : le backend utilise Flask en Py
 \section{Travail réalisé}
 
 
+
+
+Pour ce projet, une grande partie a été réalisée lors des TD, donc en groupe. Au début, nous avions l’idée initiale et avons créé la base avec des IA génératives comme DeepSeek et ChatGPT. Cette base comprenait la page d’accueil (home) et la page de création d'exercices (index). À partir de cette interface basique, nous avons commencé par comprendre le fonctionnement de l’IA Ollama, car elle constitue le cœur de notre projet. Notre but était de commencer sur le home pour ensuite arriver à l’index pour choisir son exercice et enfin l’editor pour coder. Après avoir utilisés flask pour lier tout nos pages avec nos fichier, nous nous sommes concentrés sur Ollama.
+Ensuite, nous avons atteint l’objectif le plus important du projet : pouvoir communiquer avec l’IA. Yahya et Karim se sont ensuite chargés de la liaison entre le client et l’IA, de la génération, à la réception de l’exercice, puis de l’envoi du code pour la correction. De son côté, Mehdi a réfléchi à la mise en place de plusieurs fonctionnalités utiles qui pourraient être ajoutées. Il était responsable de développer les idées qu’il pensait utile au projet.
+Il a notamment ajouté un système de solution, permettant d’afficher la réponse lorsqu’on ne parvient pas à résoudre l’exercice. Ces solutions sont censées être détaillées pour aider à comprendre chaque étape.
+Nous avions réussi a atteindre l’objectif principale de ce projet, générer un exercice et le corriger avec une IA. Cependant notre site nous permettait seulement d’écrire du code et de l’envoyer. Il nous a semblé important de pouvoir exécuter les codes pour comprendre ce qui ne fonctionne pas . Ainsi, Karim et Yahya ont ajouté une console d’exécution des programmes.
+Nous avions désormais tout ce qui était important. Pour améliorer l’expérience utilisateur, Mehdi a proposé une nouvelle direction artistique, plus simple, afin de rendre l’apprentissage plus agréable.
+Nous avions aussi pensé à ajouter un système de mémorisation des exercices pour éviter d’en proposer deux similaires à la suite. Cependant, cela était compleiqué à mettre en œuvre et peu intéréssant si l’utilisateur souhaite refaire des exercices pour s’entraîner.
+
+\section{Difficultés rencontrées}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.2\textwidth]{formulaire.png}
@@ -69,21 +79,14 @@ La plateforme repose sur plusieurs technologies : le backend utilise Flask en Py
 \label{fig:formulaire}
 \end{figure}
 
-Lorsque l'utilisateur soumet le formulaire, une requête AJAX envoie le thème et le langage choisis au serveur Flask. Le serveur appelle alors la fonction de génération qui construit un prompt destiné à l'IA Ollama. Par exemple, le prompt inclut un texte demandant de créer un exercice complet en spécifiant le langage et le thème. Voici un extrait de prompt envoyé au modèle : 
-
-\begin{verbatim}
-Crée un exercice de programmation complet en Python sur le thème: boucles. Fournis une description claire, des consignes précises, un exemple de solution bien commenté entre triple backticks avec le label 'Solution', et la sortie attendue. Formatte le tout en markdown.
-\end{verbatim}
-
-La réponse de l'IA est reçue au format texte Markdown. Nous utilisons une expression régulière pour extraire le code de la solution encadré par \texttt{```} et séparer l'énoncé de l'exercice. Le code de la solution est ensuite stocké et affiché dans l'éditeur de l'interface utilisateur. Il est à noter que chaque exercice généré est également mis en cache pour éviter des appels redondants à l'IA lors d'une demande identique.
-
-\section{Difficultés rencontrées}
-
 Plusieurs difficultés ont été rencontrées lors du développement. L'une des principales était la manipulation du contenu Markdown renvoyé par l'IA : il a fallu nettoyer le texte pour extraire correctement la partie exercice et la solution encadrée par les balises \texttt{```} en utilisant des expressions régulières. Nous avons également dû gérer l'encodage Unicode (pour les accents ou caractères spéciaux) afin d'éviter des erreurs lors du traitement du texte. Parfois l'API Ollama mettait du temps à répondre ou retournait des erreurs de temps d'exécution, ce qui a nécessité l'implémentation de délais (timeouts) et la gestion d'exceptions pour informer l'utilisateur en cas de problème. Sur le plan frontend, intégrer les requêtes AJAX avec Flask a nécessité d'activer CORS et de formater correctement les données JSON échangées. Enfin, nous avons dû gérer l'exécution des différents langages de programmation en veillant à nettoyer les fichiers temporaires et à gérer les erreurs de compilation ou d'exécution renvoyées par l'interpréteur. Chaque obstacle a été surmonté par une recherche de solutions adaptées (ajustement des expressions régulières, gestion des erreurs \texttt{try/except} en Python, etc.), améliorant ainsi la robustesse de la plateforme.
 
 \section{Bilan}
 
+
+
 En conclusion, ce projet nous a permis de mettre en pratique plusieurs compétences techniques. L'utilisation de LaTeX pour rédiger ce rapport a été l'occasion d'apprendre la structuration de documents et l'inclusion d'éléments tels que des images et des figures. L'intégration de l'IA Ollama dans une application web nous a familiarisés avec les API de modèles de langage et la conception de prompts efficaces. Le développement du backend Flask et du frontend dynamique a renforcé nos connaissances en programmation web (gestion des requêtes, traitement des réponses JSON, mise en page HTML/CSS/JavaScript). Le projet a aussi permis de travailler sur la gestion des erreurs et le débogage de bout en bout : capturer et traiter les exceptions (dans les appels à l'IA, à l'exécution du code), et sécuriser les échanges de données.Il nous a également permis de nous améliorer en utilisant les nouveaux moyens de notre temps, les IA génératives. Elles sont énormément présentes et le seront encore plus alors. Les IA peuvent nous aider mais ne peuvent pas tout faire alors la compréhension est primordiale pour aboutir à quelque chose de concret biens les utiliser est quelque chose de primordial pour nous. Ce projet nous permet de comprendre comment elles fonctionnent, quels erreurs peuvent elles faire et comment apprendre avec elles et comment elles peuvent nous aider. Car comme il y a du bon et du mauvais nous ne pouvons pas tout prendre d’elle. Enfin, la génération dynamique de contenu pédagogique nous a appris à concevoir des algorithmes réactifs et à orchestrer plusieurs composants logiciels pour répondre à une demande utilisateur.
+
 
 \section{Bibliographie}
 \renewcommand{\bibname}{}
